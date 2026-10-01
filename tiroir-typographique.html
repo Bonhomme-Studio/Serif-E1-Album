@@ -2,488 +2,93 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Le tiroir typographique</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Test diagnostic WebGL</title>
 <style>
-  :root{
-    --bg:#050505;
-    --fg:#EDEAE2;
-    --fg-dim:rgba(237,234,226,0.45);
-    --fg-faint:rgba(237,234,226,0.22);
+  html,body{ margin:0; padding:0; background:#050505; color:#fff; font-family:-apple-system,Arial,sans-serif; }
+  #status{
+    position:fixed; top:0; left:0; right:0; z-index:10;
+    padding:14px 18px; font-size:14px; line-height:1.5;
+    background:rgba(0,0,0,0.6);
   }
-  *{box-sizing:border-box;}
-  html,body{
-    margin:0;
-    padding:0;
-    background:var(--bg);
-    color:var(--fg);
-    overflow-x:hidden;
-    font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
-  }
-
-  #stage{
-    position:fixed;
-    top:0; left:0;
-    width:100%; height:100%;
-    display:block;
-    z-index:1;
-  }
-
-  #vignette{
-    position:fixed;
-    inset:0;
-    pointer-events:none;
-    z-index:2;
-    background:radial-gradient(ellipse at 50% 55%, rgba(0,0,0,0) 35%, rgba(0,0,0,0.55) 100%);
-  }
-
-  #spacer{
-    position:relative;
-    width:100%;
-    z-index:0;
-  }
-
-  .ui{
-    position:fixed;
-    left:0; right:0;
-    z-index:3;
-    pointer-events:none;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-  }
-
-  .brand{
-    top:0;
-    left:0;
-    right:auto;
-    position:fixed;
-    z-index:3;
-    padding:22px 24px;
-    line-height:1.25;
-  }
-  .brand .name{
-    font-size:13px;
-    letter-spacing:0.02em;
-    color:var(--fg);
-    font-weight:600;
-  }
-  .brand .tag{
-    font-size:11px;
-    color:var(--fg-dim);
-    margin-top:2px;
-    font-style:italic;
-    max-width:170px;
-  }
-
-  .counter{
-    position:fixed;
-    top:24px;
-    right:24px;
-    z-index:3;
-    font-size:11px;
-    color:var(--fg-dim);
-    font-variant-numeric:tabular-nums;
-    letter-spacing:0.03em;
-  }
-  .counter .cur{ color:var(--fg); }
-
-  .caption{
-    top:0;
-    height:33.34vh;
-    flex-direction:row;
-    align-items:baseline;
-    justify-content:center;
-    gap:6px;
-    text-align:center;
-    padding:0 28px;
-    transition:opacity 0.35s ease;
-  }
-  .caption .title{
-    font-size:12.5px;
-    font-weight:500;
-    color:var(--fg-dim);
-    letter-spacing:0.01em;
-  }
-  .caption .sep{
-    font-size:12.5px;
-    color:var(--fg-dim);
-  }
-  .caption .meta{
-    font-size:12.5px;
-    font-weight:500;
-    color:var(--fg-dim);
-    letter-spacing:0.01em;
-  }
-  .caption.fading{ opacity:0; }
-
-  .hint{
-    bottom:3.2%;
-    z-index:3;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:6px;
-    font-size:10.5px;
-    color:var(--fg-faint);
-    letter-spacing:0.08em;
-    transition:opacity 0.6s ease;
-  }
-  .hint svg{
-    width:14px; height:14px;
-    animation:bob 1.6s ease-in-out infinite;
-  }
-  @keyframes bob{
-    0%,100%{ transform:translateY(0); opacity:0.5; }
-    50%{ transform:translateY(5px); opacity:1; }
-  }
-  .hint.hidden{ opacity:0; }
-
-  .side-panel{
-    display:none;
-    position:fixed;
-    top:50%;
-    right:5%;
-    transform:translateY(-50%);
-    z-index:3;
-    flex-direction:column;
-    align-items:center;
-    width:200px;
-    pointer-events:none;
-  }
-  .side-panel img{
-    width:100%;
-    aspect-ratio:1/1;
-    object-fit:cover;
-    display:block;
-  }
-  .side-text{
-    margin-top:14px;
-    text-align:center;
-    display:flex;
-    align-items:baseline;
-    justify-content:center;
-    gap:6px;
-  }
-  .side-title{
-    font-size:11.5px;
-    font-weight:500;
-    color:var(--fg-dim);
-    letter-spacing:0.01em;
-  }
-  .side-sep{
-    font-size:11.5px;
-    color:var(--fg-dim);
-  }
-  .side-meta{
-    font-size:11.5px;
-    font-weight:500;
-    color:var(--fg-dim);
-  }
-
-  @media (orientation:landscape){
-    .side-panel{ display:flex; right:auto; left:25%; transform:translate(-50%, -50%); width:min(46vw, 68vh); }
-    .brand{ display:none; }
-    .caption{ display:none; }
-  }
-
-  @media (max-width:600px){
-    .brand{ display:none; }
-    .counter{ top:18px; right:18px; }
-  }
-
-  @media (prefers-reduced-motion: reduce){
-    .hint svg{ animation:none; }
-  }
+  #status.ok{ background:rgba(20,120,60,0.85); }
+  #status.error{ background:rgba(180,30,30,0.9); white-space:pre-wrap; }
+  canvas{ display:block; }
 </style>
 </head>
 <body>
-
+<div id="status">Chargement de Three.js…</div>
 <canvas id="stage"></canvas>
-<div id="vignette"></div>
 
-<div class="brand">
-  <div class="name">Font&nbsp;Font&nbsp;Font</div>
-  <div class="tag">Ainsi rangent, rangent, rangent&nbsp;— une discothèque de caractères</div>
-</div>
-
-<div class="counter"><span class="cur">01</span> / <span class="total">18</span></div>
-
-<div class="ui caption" id="caption">
-  <div class="title" id="capTitle">Helvetica</div>
-  <div class="sep">·</div>
-  <div class="meta" id="capMeta">Max Miedinger — 1957</div>
-</div>
-
-<div class="ui hint" id="hint">
-  <span>faites défiler</span>
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
-</div>
-
-<div class="side-panel" id="sidePanel">
-  <img id="sidePanelImg" alt="">
-  <div class="side-text">
-    <div class="side-title" id="sideTitle">Helvetica</div>
-    <div class="side-sep">·</div>
-    <div class="side-meta" id="sideMeta">Max Miedinger — 1957</div>
-  </div>
-</div>
-
-<div id="spacer"></div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+  document.getElementById('status').textContent = 'Three.js (CDN) charge…';
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"
+        onerror="document.getElementById('status').className='error'; document.getElementById('status').textContent='ECHEC: impossible de charger Three.js depuis cdnjs.cloudflare.com. Verifie ta connexion internet, un bloqueur de pub/script, ou un pare-feu reseau.';">
+</script>
 <script>
 (function(){
-
-  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  // ---------- Data: 18 typefaces as "records" ----------
-  var ALBUMS = [
-    { name:"Abbey Road", meta:"The Beatles", file:"The beatles - Abbey road.jpg" },
-    { name:"The Dark Side of the Moon", meta:"Pink Floyd", file:"Pink floyd - Dark side of the moon.jpg" },
-    { name:"London Calling", meta:"The Clash", file:"The clash - London calling.jpg" },
-    { name:"In the Court of the Crimson King", meta:"King Crimson", file:"King Crimson - In the Court of The Crimson King.jpg" },
-    { name:"Highway to Hell", meta:"AC/DC", file:"AC DC - Highway to hell.jpg" },
-    { name:"Black Album", meta:"AC/DC", file:"AC DC - Black album.jpg" },
-    { name:"The Bends", meta:"Radiohead", file:"Radiohead - the bends.jpg" },
-    { name:"In Rainbows", meta:"Radiohead", file:"Radiohead - In Rainbows.jpg" },
-    { name:"Mezzanine", meta:"Massive Attack", file:"Massive Attack - Mezzanine.jpg" },
-    { name:"Blur", meta:"", file:"Blur.jpg" },
-    { name:"Angles", meta:"The Strokes", file:"The Strokes - Angles.jpg" },
-    { name:"Inside In / Inside Out", meta:"The Kooks", file:"The Kooks - Inside in inside out.jpg" },
-    { name:"Listen", meta:"The Kooks", file:"The Kooks - Listen.jpg" },
-    { name:"Relationship of Command", meta:"At the Drive-In", file:"At the drive in - Relationship of command.jpg" },
-    { name:"De-Loused in the Comatorium", meta:"The Mars Volta", file:"The Mars Volta - De-Loused In The Comatorium.jpg" },
-    { name:"Frances the Mute", meta:"The Mars Volta", file:"The Mars Volta - Frances the Mute.jpg" },
-    { name:"Queens of the Stone Age", meta:"", file:"Queens of the Stone Age.jpg" },
-    { name:"Rated R", meta:"Queens of the Stone Age", file:"Queens of the stone age - Rated R 2000.jpg" },
-    { name:"Lullabies to Paralyze", meta:"Queens of the Stone Age", file:"Queens of the stone age - Lullabies To Paralyze.jpg" },
-    { name:"The Way You Used to Do", meta:"Queens of the Stone Age", file:"Queens of the Stone Age - The Way You Used To Do.jpg" },
-    { name:"...Like Clockwork", meta:"Queens of the Stone Age", file:"Queens of the Stone Age - ...Like Clockwork.jpg" },
-    { name:"obZen", meta:"Meshuggah", file:"Meshuggah - Obzen.jpg" },
-    { name:"Slipknot", meta:"", file:"Slipknot.jpg" },
-    { name:"Frame", meta:"Oceansize", file:"Oceansize - Frame.jpg" },
-    { name:"Continuum", meta:"John Mayer", file:"John Mayer - Continuum.jpg" },
-    { name:"The Pursuit", meta:"Jamie Cullum", file:"Jamie Cullum - The Pursuit.jpg" },
-    { name:"The Dawn", meta:"Erik Truffaz", file:"Erik Truffaz - The dawn.jpg" },
-    { name:"In My Room", meta:"Jacob Collier", file:"Jacob Collier - In My Room.jpg" },
-    { name:"Djesse Vol. 2", meta:"Jacob Collier", file:"Jacob Collier - Djesse vol 2.jpg" },
-    { name:"Djesse Vol. 3", meta:"Jacob Collier", file:"Jacob Collier - Djesse vol 3.jpg" },
-    { name:"Djesse Vol. 4", meta:"Jacob Collier", file:"Jacob Collier - Djesse vol 4.jpg" },
-    { name:"Homogenic", meta:"Björk", file:"Björk - Homogenic.jpg" },
-    { name:"Vespertine", meta:"Björk", file:"Björk - Vespertine.jpg" },
-    { name:"Medúlla", meta:"Björk", file:"Björk - Medulla.jpg" },
-    { name:"Hurry Up, We're Dreaming", meta:"M83", file:"M83 - Hurry up, we're dreaming.jpg" },
-    { name:"Justice", meta:"", file:"Justice.jpg" },
-    { name:"Baby I'm Yours", meta:"Breakbot", file:"Breakbot - Baby I'm Yours.jpg" },
-    { name:"By Your Side", meta:"Breakbot", file:"BreaBot - By Your Side.jpg" },
-    { name:"Viva la Vida", meta:"Coldplay", file:"Coldplay - Viva la Vida.jpg" },
-    { name:"Justified", meta:"Justin Timberlake", file:"Justin Timberlake - Justified.jpg" },
-    { name:"Starboy", meta:"The Weeknd", file:"Starboy - The Weeknd.jpg" },
-    { name:"5", meta:"Lenny Kravitz", file:"Lenny Kravitz - 5.jpg" },
-    { name:"September", meta:"Earth, Wind & Fire", file:"Earth Wind & Fire - September.jpg" },
-    { name:"Head to the Sky", meta:"Earth, Wind & Fire", file:"Earth Wind & Fire - Head To The Sky Artist.jpg" },
-    { name:"Fresh", meta:"Kool & the Gang", file:"Kool & the Gang  - Fresh.jpg" },
-    { name:"Reverie", meta:"Ben Platt", file:"Ben Platt - Reverie.jpg" },
-    { name:"Sing to Me Instead", meta:"Ben Platt", file:"Ben Platt - Sing To Me Instead.jpg" },
-    { name:"Je dis aime", meta:"M", file:"M - Je dis aime.jpg" },
-    { name:"Brûler le feu", meta:"Juliette Armanet", file:"Juliette Armanet - Brûler le feu.jpg" },
-    { name:"Rouge", meta:"Thomas Azier", file:"Thomas Azier - Rouge.jpg" }
-  ];
-
-  document.querySelector('.total').textContent = String(ALBUMS.length).padStart(2,'0');
-
-  // ---------- Covers: real uploaded artwork, loaded as textures ----------
-  var textureLoader = new THREE.TextureLoader();
-  var loadErrors = [];
-
-  function showLoadErrorBanner(){
-    if (document.getElementById('loadErrorBanner')) return;
-    var el = document.createElement('div');
-    el.id = 'loadErrorBanner';
-    el.style.cssText = 'position:fixed;left:0;right:0;bottom:0;z-index:999;background:#c1272d;color:#fff;font:12px/1.5 -apple-system,Arial,sans-serif;padding:10px 16px;max-height:40vh;overflow:auto;';
-    el.innerHTML = '<b>' + loadErrors.length + ' image(s) introuvable(s)</b> — verifie que les images sont bien au meme niveau que ce fichier HTML, avec le nom exact :<br>' +
-      loadErrors.slice(0,8).map(function(f){ return '&middot; ' + f; }).join('<br>');
-    document.body.appendChild(el);
+  var statusEl = document.getElementById('status');
+  function fail(msg){
+    statusEl.className = 'error';
+    statusEl.textContent = 'ERREUR: ' + msg;
   }
+  try {
+    if (typeof THREE === 'undefined') {
+      fail('THREE est undefined : le script cdnjs ne s\'est pas charge (voir message ci-dessus ou la console F12).');
+      return;
+    }
 
-  // covers
-  var covers = ALBUMS.map(function(album, i){
-    var tex = textureLoader.load(
-      encodeURI(album.file),
-      undefined,
-      undefined,
-      function(){
-        loadErrors.push(album.file);
-        console.error('Image introuvable:', album.file);
-        showLoadErrorBanner();
+    var canvas = document.getElementById('stage');
+    var renderer;
+    try {
+      renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+    } catch (e) {
+      fail('WebGLRenderer a leve une exception : ' + e.message + '. Ton navigateur ou ta carte graphique ne supporte peut-etre pas WebGL ici.');
+      return;
+    }
+
+    var gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    if (!gl) {
+      fail('Aucun contexte WebGL disponible sur ce navigateur/appareil.');
+      return;
+    }
+
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setClearColor(0x050505, 1);
+
+    var scene = new THREE.Scene();
+    var camera = new THREE.PerspectiveCamera(50, window.innerWidth/window.innerHeight, 0.1, 100);
+    camera.position.z = 3;
+
+    var geo = new THREE.BoxGeometry(1,1,1);
+    var mat = new THREE.MeshBasicMaterial({ color: 0xff5533, wireframe: true });
+    var cube = new THREE.Mesh(geo, mat);
+    scene.add(cube);
+
+    window.addEventListener('resize', function(){
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      camera.aspect = window.innerWidth/window.innerHeight;
+      camera.updateProjectionMatrix();
+    });
+
+    var frame = 0;
+    function animate(){
+      requestAnimationFrame(animate);
+      cube.rotation.x += 0.01;
+      cube.rotation.y += 0.015;
+      renderer.render(scene, camera);
+      frame++;
+      if (frame === 5){
+        statusEl.className = 'ok';
+        statusEl.textContent = 'OK — WebGL fonctionne, le cube tourne. Le probleme vient donc d\'ailleurs dans la page principale, pas de ton navigateur.';
       }
-    );
-    tex.anisotropy = 4;
-    var geo = new THREE.PlaneGeometry(1.5, 1.5, 1, 1);
-    var mat = new THREE.MeshBasicMaterial({ map:tex, transparent:true, fog:true });
-    var mesh = new THREE.Mesh(geo, mat);
-    mesh.userData.index = i;
-    mesh.userData.seedX = (Math.sin(i*12.9898) * 43758.5453 % 1) * 0.16;
-    mesh.userData.seedR = (Math.sin(i*78.233) * 12543.123 % 1) * 0.05;
-    scene.add(mesh);
-    return mesh;
-  });
-
-  // ---------- Scroll model ----------
-  var N = ALBUMS.length;
-  var stepPx = Math.max(340, Math.round(window.innerHeight * 0.62));
-  var spacer = document.getElementById('spacer');
-
-  function layoutSpacer(){
-    stepPx = Math.max(190, Math.round(window.innerHeight * 0.36));
-    var totalScroll = (N - 1) * stepPx;
-    spacer.style.height = (totalScroll + window.innerHeight) + 'px';
-  }
-  layoutSpacer();
-
-  var smoothedIndex = 0;   // eased virtual index used for rendering
-  var lastScrollY = window.scrollY;
-  var scrollIdleTimer = null;
-  var hasInteracted = false;
-  var hint = document.getElementById('hint');
-
-  function rawVirtualIndex(){
-    var y = window.scrollY;
-    var v = y / stepPx;
-    return Math.max(0, Math.min(N-1, v));
-  }
-
-  function onScroll(){
-    if (!hasInteracted){
-      hasInteracted = true;
-      hint.classList.add('hidden');
     }
-    clearTimeout(scrollIdleTimer);
-    scrollIdleTimer = setTimeout(snapToNearest, 90);
+    animate();
+
+  } catch (e) {
+    fail((e && e.stack) || String(e));
   }
-  window.addEventListener('scroll', onScroll, { passive:true });
-
-  function snapToNearest(){
-    var target = Math.round(rawVirtualIndex());
-    target = Math.max(0, Math.min(N-1, target));
-    var y = target * stepPx;
-    if (Math.abs(window.scrollY - y) > 1){
-      window.scrollTo({ top:y, behavior:'smooth' });
-    }
-  }
-
-  window.addEventListener('resize', function(){
-    sizeRenderer();
-    layoutSpacer();
-  });
-
-  // ---------- Caption ----------
-  var captionEl = document.getElementById('caption');
-  var capTitle = document.getElementById('capTitle');
-  var capMeta = document.getElementById('capMeta');
-  var counterEl = document.querySelector('.counter .cur');
-  var sidePanelImg = document.getElementById('sidePanelImg');
-  var sideTitle = document.getElementById('sideTitle');
-  var sideMeta = document.getElementById('sideMeta');
-  var activeDiscrete = -1;
-
-  var capSep = document.querySelector('.caption .sep');
-  var sideSep = document.querySelector('.side-panel .side-sep');
-
-  function updateCaption(discreteIndex){
-    if (discreteIndex === activeDiscrete) return;
-    activeDiscrete = discreteIndex;
-    captionEl.classList.add('fading');
-    counterEl.textContent = String(discreteIndex+1).padStart(2,'0');
-    setTimeout(function(){
-      var a = ALBUMS[discreteIndex];
-      capTitle.textContent = a.name;
-      capMeta.textContent = a.meta;
-      var hasMeta = !!a.meta;
-      capSep.style.display = hasMeta ? '' : 'none';
-      capMeta.style.display = hasMeta ? '' : 'none';
-      captionEl.classList.remove('fading');
-    }, 180);
-
-    var a2 = ALBUMS[discreteIndex];
-    sidePanelImg.src = encodeURI(ALBUMS[discreteIndex].file);
-    sideTitle.textContent = a2.name;
-    sideMeta.textContent = a2.meta;
-    var hasMeta2 = !!a2.meta;
-    sideSep.style.display = hasMeta2 ? '' : 'none';
-    sideMeta.style.display = hasMeta2 ? '' : 'none';
-  }
-
-  // ---------- Layout constants: everything lives on Z, camera stays put ----------
-  var WIDE_SPACING = 2.5;    // gap used only between the featured cover and its immediate neighbours
-  var FAR_SPACING = 1.05;    // tighter gap for everything beyond that, so the rest of the stack packs closer
-  var WIDE_RANGE = 1;        // how many index-steps on each side get the wide treatment
-  var BASE_Z = -4.6;         // the "featured" position now sits mid-depth, not right up front
-  var PASS_Z = CAM_Z - 1.3;  // once a cover's z passes this, it has "arrived" and starts vanishing
-  var VANISH_Z = CAM_Z + 1.8;// fully gone by here
-
-  function depthOffset(d){
-    if (Math.abs(d) <= WIDE_RANGE){
-      return d * WIDE_SPACING;
-    }
-    var sign = d > 0 ? 1 : -1;
-    var beyond = Math.abs(d) - WIDE_RANGE;
-    return sign * (WIDE_RANGE * WIDE_SPACING + beyond * FAR_SPACING);
-  }
-  var COVER_Y = -0.15;
-
-  function focusBump(d){
-    // 1 right at the focused cover, tapering off for neighbours
-    d = Math.min(Math.abs(d), 1.4);
-    return Math.max(0, 0.5 * (1 + Math.cos(d / 1.4 * Math.PI)));
-  }
-
-  var clock = new THREE.Clock();
-
-  function animate(){
-    requestAnimationFrame(animate);
-    var t = clock.getElapsedTime();
-
-    var raw = rawVirtualIndex();
-    var target = (N - 1) - raw;   // inverted: scrolling down now sends covers away instead of pulling them in
-    smoothedIndex += (target - smoothedIndex) * 0.6;
-
-    updateCaption(Math.round(smoothedIndex));
-
-    for (var i=0;i<covers.length;i++){
-      var mesh = covers[i];
-      var d = i - smoothedIndex;
-      var z = BASE_Z - depthOffset(d);
-      var focus = focusBump(d);
-
-      var x = 0;
-      var y = COVER_Y + focus * 0.85;
-      var rotZ = focus * 0.16;
-
-      if (!reduceMotion && focus > 0.985){
-        y += Math.sin(t * 0.9) * 0.012;
-      }
-
-      mesh.position.set(x, y, z);
-      mesh.rotation.set(0, 0, rotZ);
-      mesh.scale.setScalar(1);
-
-      // fade a cover in as it emerges from the dark, and out as it sails past the camera
-      var arrival = Math.min(1, Math.max(0, (z - DRAWER_FAR_Z + 4) / 6));
-      var passing = 1 - Math.min(1, Math.max(0, (z - PASS_Z) / (VANISH_Z - PASS_Z)));
-      var opacity = arrival * passing;
-      mesh.material.opacity = opacity;
-      mesh.visible = opacity > 0.015;
-      mesh.renderOrder = 100 - Math.round(z * 10);
-    }
-
-    renderer.render(scene, camera);
-  }
-
-  smoothedIndex = (N - 1) - rawVirtualIndex();
-  animate();
-
 })();
 </script>
 </body>
