@@ -239,128 +239,69 @@
 
   // ---------- Data: 18 typefaces as "records" ----------
   var ALBUMS = [
-    { name:"Helvetica",        meta:"Max Miedinger — 1957",     bg:"#0B0B0B", fg:"#EFEFEF", accent:"#D6402C", font:"800 210px 'Helvetica Neue', Arial, sans-serif", glyph:"H" },
-    { name:"Garamond",         meta:"Claude Garamond — 1530",   bg:"#EDE6D6", fg:"#1B1B1B", accent:"#8C1F28", font:"italic 400 230px Georgia, 'Times New Roman', serif", glyph:"G" },
-    { name:"Futura",           meta:"Paul Renner — 1927",       bg:"#C1272D", fg:"#F5F1E8", accent:"#101010", font:"700 220px 'Century Gothic', Futura, Arial, sans-serif", glyph:"F" },
-    { name:"Didot",            meta:"Firmin Didot — 1784",      bg:"#151515", fg:"#EDEAE2", accent:"#C6A15B", font:"400 240px Didot, 'Bodoni MT', Georgia, serif", glyph:"D" },
-    { name:"Univers",          meta:"Adrian Frutiger — 1957",   bg:"#1D2B53", fg:"#EDEAE2", accent:"#E8A93B", font:"500 200px 'Helvetica Neue', Arial, sans-serif", glyph:"U" },
-    { name:"Bodoni",           meta:"Giambattista Bodoni — 1798", bg:"#E8A93B", fg:"#151515", accent:"#0B0B0B", font:"400 230px 'Bodoni MT', Didot, Georgia, serif", glyph:"B" },
-    { name:"Baskerville",      meta:"John Baskerville — 1757",  bg:"#3A5A50", fg:"#F1EEE4", accent:"#E0C88C", font:"400 220px Baskerville, Georgia, serif", glyph:"B" },
-    { name:"Gill Sans",        meta:"Eric Gill — 1928",         bg:"#F1EEE4", fg:"#1B1B1B", accent:"#35586B", font:"500 210px 'Gill Sans', 'Helvetica Neue', sans-serif", glyph:"G" },
-    { name:"Frutiger",         meta:"Adrian Frutiger — 1976",   bg:"#35586B", fg:"#F1EEE4", accent:"#D9622B", font:"500 200px 'Frutiger', 'Helvetica Neue', sans-serif", glyph:"F" },
-    { name:"Akzidenz Grotesk", meta:"H. Berthold AG — 1896",    bg:"#151515", fg:"#EDEAE2", accent:"#A6472E", font:"700 200px Arial, sans-serif", glyph:"A" },
-    { name:"Caslon",           meta:"William Caslon — 1722",    bg:"#6E1E2C", fg:"#EDE6D6", accent:"#151515", font:"400 220px 'Caslon', Georgia, serif", glyph:"C" },
-    { name:"Franklin Gothic",  meta:"M. F. Benton — 1902",      bg:"#232323", fg:"#EDEAE2", accent:"#D9622B", font:"800 200px 'Franklin Gothic Medium', Arial, sans-serif", glyph:"F" },
-    { name:"Optima",           meta:"Hermann Zapf — 1958",      bg:"#4C5B3B", fg:"#F1EEE4", accent:"#E8A93B", font:"400 210px Optima, Georgia, sans-serif", glyph:"O" },
-    { name:"DIN",              meta:"DIN-Normenausschuss — 1931", bg:"#1B1B1B", fg:"#EDEAE2", accent:"#3C7A6B", font:"700 200px 'DIN Alternate', Arial, sans-serif", glyph:"D" },
-    { name:"Avenir",           meta:"Adrian Frutiger — 1988",   bg:"#B8862B", fg:"#151515", accent:"#F1EEE4", font:"600 210px Avenir, 'Century Gothic', sans-serif", glyph:"A" },
-    { name:"Gotham",           meta:"Tobias Frere-Jones — 2000", bg:"#151515", fg:"#EDEAE2", accent:"#C1272D", font:"700 200px 'Gotham', Arial, sans-serif", glyph:"G" },
-    { name:"Inter",            meta:"Rasmus Andersson — 2017",  bg:"#EDEAE2", fg:"#1B1B1B", accent:"#1D2B53", font:"600 200px Inter, Arial, sans-serif", glyph:"I" },
-    { name:"Sabon",            meta:"Jan Tschichold — 1967",    bg:"#4B2142", fg:"#EDE6D6", accent:"#E0C88C", font:"400 230px Sabon, Georgia, serif", glyph:"S" }
+    { name:"Abbey Road", meta:"The Beatles", file:"pictures/The beatles - Abbey road.jpg" },
+    { name:"The Dark Side of the Moon", meta:"Pink Floyd", file:"pictures/Pink floyd - Dark side of the moon.jpg" },
+    { name:"London Calling", meta:"The Clash", file:"pictures/The clash - London calling.jpg" },
+    { name:"In the Court of the Crimson King", meta:"King Crimson", file:"pictures/King Crimson - In the Court of The Crimson King.jpg" },
+    { name:"Highway to Hell", meta:"AC/DC", file:"pictures/AC DC - Highway to hell.jpg" },
+    { name:"Black Album", meta:"AC/DC", file:"pictures/AC DC - Black album.jpg" },
+    { name:"The Bends", meta:"Radiohead", file:"pictures/Radiohead - the bends.jpg" },
+    { name:"In Rainbows", meta:"Radiohead", file:"pictures/Radiohead - In Rainbows.jpg" },
+    { name:"Mezzanine", meta:"Massive Attack", file:"pictures/Massive Attack - Mezzanine.jpg" },
+    { name:"Blur", meta:"", file:"pictures/Blur.jpg" },
+    { name:"Angles", meta:"The Strokes", file:"pictures/The Strokes - Angles.jpg" },
+    { name:"Inside In / Inside Out", meta:"The Kooks", file:"pictures/The Kooks - Inside in inside out.jpg" },
+    { name:"Listen", meta:"The Kooks", file:"pictures/The Kooks - Listen.jpg" },
+    { name:"Relationship of Command", meta:"At the Drive-In", file:"pictures/At the drive in - Relationship of command.jpg" },
+    { name:"De-Loused in the Comatorium", meta:"The Mars Volta", file:"pictures/The Mars Volta - De-Loused In The Comatorium.jpg" },
+    { name:"Frances the Mute", meta:"The Mars Volta", file:"pictures/The Mars Volta - Frances the Mute.jpg" },
+    { name:"Queens of the Stone Age", meta:"", file:"pictures/Queens of the Stone Age.jpg" },
+    { name:"Rated R", meta:"Queens of the Stone Age", file:"pictures/Queens of the stone age - Rated R 2000.jpg" },
+    { name:"Lullabies to Paralyze", meta:"Queens of the Stone Age", file:"pictures/Queens of the stone age - Lullabies To Paralyze.jpg" },
+    { name:"The Way You Used to Do", meta:"Queens of the Stone Age", file:"pictures/Queens of the Stone Age - The Way You Used To Do.jpg" },
+    { name:"...Like Clockwork", meta:"Queens of the Stone Age", file:"pictures/Queens of the Stone Age - ...Like Clockwork.jpg" },
+    { name:"obZen", meta:"Meshuggah", file:"pictures/Meshuggah - Obzen.jpg" },
+    { name:"Slipknot", meta:"", file:"pictures/Slipknot.jpg" },
+    { name:"Frame", meta:"Oceansize", file:"pictures/Oceansize - Frame.jpg" },
+    { name:"Continuum", meta:"John Mayer", file:"pictures/John Mayer - Continuum.jpg" },
+    { name:"The Pursuit", meta:"Jamie Cullum", file:"pictures/Jamie Cullum - The Pursuit.jpg" },
+    { name:"The Dawn", meta:"Erik Truffaz", file:"pictures/Erik Truffaz - The dawn.jpg" },
+    { name:"In My Room", meta:"Jacob Collier", file:"pictures/Jacob Collier - In My Room.jpg" },
+    { name:"Djesse Vol. 2", meta:"Jacob Collier", file:"pictures/Jacob Collier - Djesse vol 2.jpg" },
+    { name:"Djesse Vol. 3", meta:"Jacob Collier", file:"pictures/Jacob Collier - Djesse vol 3.jpg" },
+    { name:"Djesse Vol. 4", meta:"Jacob Collier", file:"pictures/Jacob Collier - Djesse vol 4.jpg" },
+    { name:"Homogenic", meta:"Björk", file:"pictures/Björk - Homogenic.jpg" },
+    { name:"Vespertine", meta:"Björk", file:"pictures/Björk - Vespertine.jpg" },
+    { name:"Medúlla", meta:"Björk", file:"pictures/Björk - Medulla.jpg" },
+    { name:"Hurry Up, We're Dreaming", meta:"M83", file:"pictures/M83 - Hurry up, we're dreaming.jpg" },
+    { name:"Justice", meta:"", file:"pictures/Justice.jpg" },
+    { name:"Baby I'm Yours", meta:"Breakbot", file:"pictures/Breakbot - Baby I'm Yours.jpg" },
+    { name:"By Your Side", meta:"Breakbot", file:"pictures/BreaBot - By Your Side.jpg" },
+    { name:"Viva la Vida", meta:"Coldplay", file:"pictures/Coldplay - Viva la Vida.jpg" },
+    { name:"Justified", meta:"Justin Timberlake", file:"pictures/Justin Timberlake - Justified.jpg" },
+    { name:"Starboy", meta:"The Weeknd", file:"pictures/Starboy - The Weeknd.jpg" },
+    { name:"5", meta:"Lenny Kravitz", file:"pictures/Lenny Kravitz - 5.jpg" },
+    { name:"September", meta:"Earth, Wind & Fire", file:"pictures/Earth Wind & Fire - September.jpg" },
+    { name:"Head to the Sky", meta:"Earth, Wind & Fire", file:"pictures/Earth Wind & Fire - Head To The Sky Artist.jpg" },
+    { name:"Fresh", meta:"Kool & the Gang", file:"pictures/Kool & the Gang  - Fresh.jpg" },
+    { name:"Reverie", meta:"Ben Platt", file:"pictures/Ben Platt - Reverie.jpg" },
+    { name:"Sing to Me Instead", meta:"Ben Platt", file:"pictures/Ben Platt - Sing To Me Instead.jpg" },
+    { name:"Je dis aime", meta:"M", file:"pictures/M - Je dis aime.jpg" },
+    { name:"Brûler le feu", meta:"Juliette Armanet", file:"pictures/Juliette Armanet - Brûler le feu.jpg" },
+    { name:"Rouge", meta:"Thomas Azier", file:"pictures/Thomas Azier - Rouge.jpg" }
   ];
 
   document.querySelector('.total').textContent = String(ALBUMS.length).padStart(2,'0');
 
-  // ---------- Cover texture generation ----------
-  function makeCoverTexture(album){
-    var size = 512;
-    var c = document.createElement('canvas');
-    c.width = size; c.height = size;
-    var ctx = c.getContext('2d');
-
-    // background
-    ctx.fillStyle = album.bg;
-    ctx.fillRect(0,0,size,size);
-
-    // subtle grain / texture via noise squares (cheap)
-    ctx.globalAlpha = 0.035;
-    for (var i=0;i<150;i++){
-      ctx.fillStyle = (i % 2 === 0) ? '#ffffff' : '#000000';
-      ctx.fillRect(Math.random()*size, Math.random()*size, 2, 2);
-    }
-    ctx.globalAlpha = 1;
-
-    // (frame removed per request)
-
-    // big glyph
-    ctx.fillStyle = album.fg;
-    ctx.font = album.font;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(album.glyph, size/2, size/2 + 30);
-
-    // accent bar
-    ctx.fillStyle = album.accent;
-    ctx.fillRect(48, size-96, size-96, 8);
-
-    // name label bottom
-    ctx.fillStyle = album.fg;
-    ctx.font = '600 30px -apple-system, Arial, sans-serif';
-    ctx.textAlign = 'left';
-    ctx.textBaseline = 'alphabetic';
-    ctx.fillText(album.name, 48, size-52);
-
-    ctx.fillStyle = album.accent;
-    ctx.font = '400 18px -apple-system, Arial, sans-serif';
-    ctx.fillText(album.meta.toUpperCase(), 48, size-24);
-
-    var tex = new THREE.CanvasTexture(c);
-    tex.anisotropy = 4;
-    tex.needsUpdate = true;
-    return { texture:tex, canvas:c };
-  }
-
-  // ---------- Three.js setup ----------
-  var canvas = document.getElementById('stage');
-  var renderer = new THREE.WebGLRenderer({ canvas:canvas, antialias:true, alpha:false, powerPreference:'high-performance' });
-  renderer.setClearColor(0x050505, 1);
-  var DPR = Math.min(window.devicePixelRatio || 1, 2);
-  renderer.setPixelRatio(DPR);
-
-  var scene = new THREE.Scene();
-  var FOG_NEAR = 4;
-  var FOG_FAR = 30;
-  scene.fog = new THREE.Fog(0x050505, FOG_NEAR, FOG_FAR);
-
-  var CAM_X = 2.8;
-  var CAM_Y = 3.5;
-  var CAM_Z = 4.6;
-  var LOOK_Y = 0.7;    // matches the featured cover's height at full lift
-  var LOOK_Z = -4.6;   // matches BASE_Z below: aim straight at the featured cover, not a distant point
-
-  var camera = new THREE.PerspectiveCamera(46, window.innerWidth/window.innerHeight, 0.1, 100);
-  camera.position.set(CAM_X, CAM_Y, CAM_Z);
-  camera.lookAt(0, LOOK_Y, LOOK_Z);
-
-  var LANDSCAPE_CENTER_FRACTION = 0.75; // where the focal point should sit across the width, in landscape
-
-  function sizeRenderer(){
-    var w = window.innerWidth, h = window.innerHeight;
-    renderer.setSize(w,h);
-    camera.aspect = w/h;
-    camera.updateProjectionMatrix();
-
-    if (w > h){
-      var fullW = w * 2;
-      var offsetX = w * (1 - LANDSCAPE_CENTER_FRACTION);
-      camera.setViewOffset(fullW, h, offsetX, 0, w, h);
-    } else {
-      camera.clearViewOffset();
-    }
-  }
-  sizeRenderer();
-
-  // ---------- The drawer: covers alone against the black, no floor ----------
-  var DRAWER_LENGTH = 46;
-  var DRAWER_FAR_Z = -DRAWER_LENGTH + 6;
+  // ---------- Covers: real uploaded artwork, loaded as textures ----------
+  var textureLoader = new THREE.TextureLoader();
 
   // covers
-  var coverCanvases = [];
   var covers = ALBUMS.map(function(album, i){
-    var made = makeCoverTexture(album);
-    coverCanvases.push(made.canvas);
+    var tex = textureLoader.load(album.file);
+    tex.anisotropy = 4;
     var geo = new THREE.PlaneGeometry(1.5, 1.5, 1, 1);
-    var mat = new THREE.MeshBasicMaterial({ map:made.texture, transparent:true, fog:true });
+    var mat = new THREE.MeshBasicMaterial({ map:tex, transparent:true, fog:true });
     var mesh = new THREE.Mesh(geo, mat);
     mesh.userData.index = i;
     mesh.userData.seedX = (Math.sin(i*12.9898) * 43758.5453 % 1) * 0.16;
@@ -427,6 +368,9 @@
   var sideMeta = document.getElementById('sideMeta');
   var activeDiscrete = -1;
 
+  var capSep = document.querySelector('.caption .sep');
+  var sideSep = document.querySelector('.side-panel .side-sep');
+
   function updateCaption(discreteIndex){
     if (discreteIndex === activeDiscrete) return;
     activeDiscrete = discreteIndex;
@@ -436,13 +380,19 @@
       var a = ALBUMS[discreteIndex];
       capTitle.textContent = a.name;
       capMeta.textContent = a.meta;
+      var hasMeta = !!a.meta;
+      capSep.style.display = hasMeta ? '' : 'none';
+      capMeta.style.display = hasMeta ? '' : 'none';
       captionEl.classList.remove('fading');
     }, 180);
 
     var a2 = ALBUMS[discreteIndex];
-    sidePanelImg.src = coverCanvases[discreteIndex].toDataURL('image/png');
+    sidePanelImg.src = ALBUMS[discreteIndex].file;
     sideTitle.textContent = a2.name;
     sideMeta.textContent = a2.meta;
+    var hasMeta2 = !!a2.meta;
+    sideSep.style.display = hasMeta2 ? '' : 'none';
+    sideMeta.style.display = hasMeta2 ? '' : 'none';
   }
 
   // ---------- Layout constants: everything lives on Z, camera stays put ----------
