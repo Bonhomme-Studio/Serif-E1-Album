@@ -295,10 +295,30 @@
 
   // ---------- Covers: real uploaded artwork, loaded as textures ----------
   var textureLoader = new THREE.TextureLoader();
+  var loadErrors = [];
+
+  function showLoadErrorBanner(){
+    if (document.getElementById('loadErrorBanner')) return;
+    var el = document.createElement('div');
+    el.id = 'loadErrorBanner';
+    el.style.cssText = 'position:fixed;left:0;right:0;bottom:0;z-index:999;background:#c1272d;color:#fff;font:12px/1.5 -apple-system,Arial,sans-serif;padding:10px 16px;max-height:40vh;overflow:auto;';
+    el.innerHTML = '<b>' + loadErrors.length + ' image(s) introuvable(s)</b> — verifie que les images sont bien au meme niveau que ce fichier HTML, avec le nom exact :<br>' +
+      loadErrors.slice(0,8).map(function(f){ return '&middot; ' + f; }).join('<br>');
+    document.body.appendChild(el);
+  }
 
   // covers
   var covers = ALBUMS.map(function(album, i){
-    var tex = textureLoader.load(album.file);
+    var tex = textureLoader.load(
+      encodeURI(album.file),
+      undefined,
+      undefined,
+      function(){
+        loadErrors.push(album.file);
+        console.error('Image introuvable:', album.file);
+        showLoadErrorBanner();
+      }
+    );
     tex.anisotropy = 4;
     var geo = new THREE.PlaneGeometry(1.5, 1.5, 1, 1);
     var mat = new THREE.MeshBasicMaterial({ map:tex, transparent:true, fog:true });
@@ -387,7 +407,7 @@
     }, 180);
 
     var a2 = ALBUMS[discreteIndex];
-    sidePanelImg.src = ALBUMS[discreteIndex].file;
+    sidePanelImg.src = encodeURI(ALBUMS[discreteIndex].file);
     sideTitle.textContent = a2.name;
     sideMeta.textContent = a2.meta;
     var hasMeta2 = !!a2.meta;
